@@ -1,14 +1,36 @@
 import pytest 
 import os 
 from dotenv import load_dotenv 
+from pages.login_page import LoginPage
+from pages.dashboard_page import DashboardPage
+from pages.my_info_page import MyInfoPage
+
 
 load_dotenv()
 
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def admin_credentials():
     return {
         "username": os.getenv("ADMIN_USERNAME"), 
         'password': os.getenv("ADMIN_PASSWORD")
     }
+    
+    
+@pytest.fixture()
+def login_page(page):
+    login_page = LoginPage(page)
+    return login_page
+
+
+@pytest.fixture()
+def dashboard_page(page):
+    dashboard_page = DashboardPage(page)
+    return dashboard_page
+
+
+@pytest.fixture()
+def my_info_page(page):
+    my_info_page = MyInfoPage(page)
+    return my_info_page
