@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from pages.login_page import LoginPage
 from pages.dashboard_page import DashboardPage
 from pages.my_info_page import MyInfoPage
-
+import allure
 
 load_dotenv()
 
@@ -34,3 +34,18 @@ def dashboard_page(page):
 def my_info_page(page):
     my_info_page = MyInfoPage(page)
     return my_info_page
+
+
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    rep = outcome.get_result()
+    if rep.when == "call" and rep.failed:
+        page = item.funcargs.get("page")
+        if page:
+            allure.attach(
+                page.screenshot(),
+                name="screenshot on failure",
+                attachment_type=allure.attachment_type.PNG
+            )

@@ -1,6 +1,6 @@
 from pages.base_page import BasePage
 import random
-
+import allure
 class MyInfoPage(BasePage):
     
     PERSONAL_FIELD = '//h6[text()="Personal Details"]'
@@ -17,7 +17,7 @@ class MyInfoPage(BasePage):
     SUCCES_MESSAGE = "//div[@class='oxd-toast-content oxd-toast-content--success']"
     SPINNER_FIELD = "//div[@class='oxd-loading-spinner']"
     
-        
+    @allure.step("Click save button")   
     def save(self):
         self.page.wait_for_selector(self.SAVE_FIELD).click()
 
@@ -28,25 +28,31 @@ class MyInfoPage(BasePage):
     def is_saved(self):
         return self.page.wait_for_selector(self.SUCCES_MESSAGE).is_visible()
     
-    
+    @allure.step("Enter firstname")
     def enter_firstname(self,firstname):
         return self.page.wait_for_selector(self.FIRSTNAME_FIELD).fill(firstname)
     
+    @allure.step("Enter middlename")
     def enter_middlename(self,middlename):
         return self.page.wait_for_selector(self.MIDDLENAME_FIELD).fill(middlename)
     
+    @allure.step("Enter lastname")
     def enter_lastname(self,lastname):
         return self.page.wait_for_selector(self.LASTNAME_FIELD).fill(lastname)
     
+    @allure.step("Enter employee id")
     def enter_employee_id(self,employee_id):
         return self.page.wait_for_selector(self.EMPLOYEE_ID_FIELD).fill(employee_id)
     
+    @allure.step("Enter other id")
     def enter_other_id(self,other_id):
         return self.page.wait_for_selector(self.OTHER_ID_FIELD).fill(other_id)
     
+    @allure.step("Enter drivers license")
     def enter_drivers_license(self,drivers_license):
         return self.page.wait_for_selector(self.DRIVERS_LICENSE_FIELD).fill(drivers_license)
     
+    @allure.step("Enter license expiry")
     def enter_license_expiry(self,license_expiry):
         return self.page.wait_for_selector(self.LICENSE_EXPIRY_FIELD).fill(license_expiry)
     
@@ -54,6 +60,7 @@ class MyInfoPage(BasePage):
     def wait_for_spinner(self):
         self.page.wait_for_selector(self.SPINNER_FIELD, state = 'hidden')
     
+    @allure.step("Enter nationality")
     def enter_nationality(self):
         self.page.wait_for_selector(self.NATIONALY_FIELD).click()
         options = self.page.query_selector_all(self.NATIONALITY_OPTIONS)
@@ -62,6 +69,8 @@ class MyInfoPage(BasePage):
         option.click()
         return nationality
     
+    
+
     def fill_person_data(self,data):
         self.wait_for_spinner()
         self.enter_firstname(data['firstname'])
