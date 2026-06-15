@@ -41,6 +41,20 @@ jobs:
               run: pytest --override-ini="addopts=--alluredir=allure-results"
               continue-on-error: true
 
+            - name: Get Allure history
+              uses: actions/checkout@v4
+              if: always()
+              continue-on-error: true
+              with:
+                ref: gh-pages
+                path: gh-pages
+
+            - name: Copy Allure history
+              if: always()
+              run: |
+                mkdir -p allure-results/history
+                cp -r gh-pages/history allure-results/history 2>/dev/null || true
+
             - name: Generate Allure Report
               if: always()
               run: allure generate allure-results -o allure-report --clean
