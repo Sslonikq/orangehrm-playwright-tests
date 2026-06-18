@@ -1,4 +1,5 @@
 import allure
+import pytest
 
 
 
@@ -14,12 +15,18 @@ def test_login_successfully(login_page, admin_credentials,dashboard_page):
     
 @allure.feature("Authentication")
 @allure.story("Incorrect credentials")
-def test_login_incorrect(login_page):
+@pytest.mark.parametrize('username, password', 
+                         [
+                             ('incorrect_username' , 'incorrect_password') ,
+                             ('Admin' , 'wrong_password') , 
+                             ('wrong_username' , 'admin1234')
+                         ])
+def test_login_incorrect(login_page, username, password):
     login_page.open()
-    with allure.step("Enter login: incorrect_username"):
-        login_page.enter_login('incorrect_username')
-    with allure.step("Enter password: incorrect_password"):
-        login_page.enter_password('incorrect_password')
+    with allure.step(f"Enter login: {username}"):
+        login_page.enter_login(username)
+    with allure.step(f"Enter password: {password}"):
+        login_page.enter_password(password)
     login_page.click_submit_button()
     assert login_page.get_alert() == 'Invalid credentials'
     login_page.make_screenshot("login incorrect")

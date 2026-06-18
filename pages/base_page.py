@@ -9,9 +9,6 @@ class BasePage:
     def navigate(self, url):
         self.page.goto(url)
         
-    def page_title(self):
-        return self.page.title 
-    
     
     def make_screenshot(self,screen_name):
         allure.attach(

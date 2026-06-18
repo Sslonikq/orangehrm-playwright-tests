@@ -11,10 +11,10 @@ class MyInfoPage(BasePage):
     OTHER_ID_FIELD = "//label[text()='Other Id']/../..//input"
     DRIVERS_LICENSE_FIELD = '//label[text()="Driver\'s License Number"]/../..//input'
     LICENSE_EXPIRY_FIELD = "//label[text()='License Expiry Date']/../..//input"
-    NATIONALY_FIELD = "(//div[@tabindex='0'])[1]"
+    NATIONALITY_FIELD = "(//div[@tabindex='0'])[1]"
     SAVE_FIELD = "(//button[@type='submit'])[1]"
     NATIONALITY_OPTIONS = "//div[@role='option']"
-    SUCCES_MESSAGE = "//div[@class='oxd-toast-content oxd-toast-content--success']"
+    SUCCESS_MESSAGE = "//div[@class='oxd-toast-content oxd-toast-content--success']"
     SPINNER_FIELD = "//div[@class='oxd-loading-spinner']"
     
     @allure.step("Click save button")   
@@ -26,7 +26,7 @@ class MyInfoPage(BasePage):
         return self.page.wait_for_selector(self.PERSONAL_FIELD).is_visible()
     
     def is_saved(self):
-        return self.page.wait_for_selector(self.SUCCES_MESSAGE).is_visible()
+        return self.page.wait_for_selector(self.SUCCESS_MESSAGE).is_visible()
     
     @allure.step("Enter firstname")
     def enter_firstname(self,firstname):
@@ -62,7 +62,7 @@ class MyInfoPage(BasePage):
     
     @allure.step("Enter nationality")
     def enter_nationality(self):
-        self.page.wait_for_selector(self.NATIONALY_FIELD).click()
+        self.page.wait_for_selector(self.NATIONALITY_FIELD).click()
         options = self.page.query_selector_all(self.NATIONALITY_OPTIONS)
         option = random.choice(options)
         nationality = option.inner_text()
@@ -94,5 +94,5 @@ class MyInfoPage(BasePage):
         data['other_id'] = self.page.wait_for_selector(self.OTHER_ID_FIELD).input_value()
         data['drivers_license'] = self.page.wait_for_selector(self.DRIVERS_LICENSE_FIELD).input_value()
         data['license_expiry'] = self.page.wait_for_selector(self.LICENSE_EXPIRY_FIELD).input_value()
-        data['nationality'] = self.page.wait_for_selector(self.NATIONALY_FIELD).inner_text()
+        data['nationality'] = self.page.wait_for_selector(self.NATIONALITY_FIELD).inner_text()
         return data

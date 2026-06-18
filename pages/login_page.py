@@ -1,6 +1,6 @@
 from pages.base_page import BasePage
 import allure 
-from allure_commons.types import ParameterMode
+
 
 class LoginPage(BasePage):
     
