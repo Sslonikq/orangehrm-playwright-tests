@@ -10,7 +10,7 @@ def get_personal_data():
     employee_id = str(fake.random_number(digits=4))
     other_id = str(fake.random_number(digits=4))
     drivers_license = fake.bothify(text="??######")
-    license_expiry = fake.date_between(start_date=date.today(), end_date=date(2030, 1, 1)).strftime("%Y-%d-%m")
+    license_expiry = fake.date_between(start_date=date.today(), end_date=date(2030, 1, 1)).strftime("%Y-%m-%d")
     return {
         "firstname": firstname,
         "middlename": middlename,
