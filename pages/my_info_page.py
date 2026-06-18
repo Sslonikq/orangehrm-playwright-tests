@@ -47,7 +47,7 @@ class MyInfoPage(BasePage):
     def fill_person_data(self, data):
         self.wait_for_spinner()
         for key, selector in self._FIELD_MAP.items():
-            with allure.step(f"Enter {key}"):
+            with allure.step(f"Enter {key}: {data[key]}"):
                 self.page.wait_for_selector(selector).fill(data[key])
         self.page.keyboard.press("Escape")
         data['nationality'] = self.enter_nationality()
