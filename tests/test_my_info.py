@@ -5,12 +5,8 @@ import allure
 
 @allure.feature("My info")
 @allure.story("Edit personal details")
-def test_my_info(admin_credentials,login_page,dashboard_page,my_info_page):
-    login_page.open()
-    login_page.enter_login(admin_credentials['username'])
-    login_page.enter_password(admin_credentials['password'])
-    login_page.click_submit_button()
-    dashboard_page.go_to_my_info()
+def test_my_info(logged_in,my_info_page):
+    logged_in.go_to_my_info()
     assert my_info_page.is_loaded()
     data = get_personal_data()
     my_info_page.fill_person_data(data)
@@ -27,3 +23,18 @@ def test_my_info(admin_credentials,login_page,dashboard_page,my_info_page):
     assert actual['nationality'] == data['nationality']
     my_info_page.wait_for_spinner()
     my_info_page.make_screenshot("after_save")
+
+
+
+@allure.feature("My info")
+@allure.story("Validation - required fields")
+def test_my_info_required_fields(logged_in,my_info_page):
+    logged_in.go_to_my_info()
+    assert my_info_page.is_loaded()
+    my_info_page.clear_field('firstname')
+    my_info_page.clear_field('lastname')
+    firstname_error, lastname_error = my_info_page.get_validation_errors()    
+    assert firstname_error == 'Required'
+    assert lastname_error == 'Required'
+    my_info_page.make_screenshot("Required fields")
+    

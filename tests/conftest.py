@@ -49,3 +49,11 @@ def pytest_runtest_makereport(item, call):
                 name="screenshot on failure",
                 attachment_type=allure.attachment_type.PNG
             )
+
+@pytest.fixture()
+def logged_in(login_page,dashboard_page,admin_credentials):
+    login_page.open()
+    login_page.enter_login(admin_credentials['username'])
+    login_page.enter_password(admin_credentials['password'])
+    login_page.click_submit_button()
+    return dashboard_page

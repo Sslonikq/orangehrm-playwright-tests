@@ -11,6 +11,8 @@ class MyInfoPage(BasePage):
     NATIONALITY_OPTIONS = "//div[@role='option']"
     SUCCESS_MESSAGE = "//div[@class='oxd-toast-content oxd-toast-content--success']"
     SPINNER_FIELD = "//div[@class='oxd-loading-spinner']"
+    FIRSTNAME_ERROR = "(//span[@class='oxd-text oxd-text--span oxd-input-field-error-message oxd-input-group__message'])[1]"
+    LASTNAME_ERROR = "(//span[@class='oxd-text oxd-text--span oxd-input-field-error-message oxd-input-group__message'])[2]"
 
     _FIELD_MAP = {
         "firstname":       "//input[@name='firstName']",
@@ -58,3 +60,13 @@ class MyInfoPage(BasePage):
             data[key] = self.page.wait_for_selector(selector).input_value()
         data['nationality'] = self.page.wait_for_selector(self.NATIONALITY_FIELD).inner_text()
         return data
+       
+    def get_validation_errors(self):
+        firstname_error = self.page.wait_for_selector(self.FIRSTNAME_ERROR).inner_text()
+        lastname_error = self.page.wait_for_selector(self.LASTNAME_ERROR).inner_text()
+        return firstname_error, lastname_error
+    
+    @allure.step("Clear field")
+    def clear_field(self,field_name):
+        self.wait_for_spinner()
+        self.page.wait_for_selector(self._FIELD_MAP[field_name]).fill("")
